@@ -1,0 +1,6 @@
+topology_type,n_scenarios,dominant_controller,second_controller,dominant_avg_ahp,second_avg_ahp,margin,dominant_win_rate,dominant_sd_ahp,ml_top1_pooled,ml_top1_seed42,ml_regret_pooled,ml_weak,note
+linear,31,ryu,floodlight,0.842077,0.817131,0.024947,0.516129,0.089458,0.8581,0.871,0.0068,0,persaingan ketat
+mesh,5,onos,ryu,0.91422,0.72239,0.19183,0.8,0.01069,0.8,0.8,0.0047,1,sampel kecil; dominasi jelas
+ring,28,onos,ryu,0.865571,0.720966,0.144605,0.785714,0.081019,0.7786,0.7857,0.0264,1,dominan tapi tidak seragam
+star,47,ryu,floodlight,0.933916,0.85162,0.082296,0.914894,0.056555,0.9404,0.9787,0.0087,0,dominasi jelas
+tree,7,floodlight,ryu,0.862457,0.796221,0.066236,0.714286,0.023963,0.6571,0.7143,0.0107,1,sampel kecil; dominan tapi tidak seragam

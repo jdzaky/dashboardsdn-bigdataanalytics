@@ -1,0 +1,7 @@
+method,type,top1_mean,top1_std,regret_mean,regret_std,mae_mean,n_scenarios,n_seeds
+RF Regressor (Spark ML),model,0.857627,0.021033,0.012352,0.00167,0.048855,118,5
+always_ryu,baseline,0.567797,0.0,0.065457,0.0,,118,5
+always_floodlight,baseline,0.211864,0.0,0.107015,0.0,,118,5
+always_onos,baseline,0.220339,0.0,0.168282,0.0,,118,5
+best_mean_ahp,baseline,0.567797,0.0,0.065457,0.0,,118,5
+most_rank1,baseline,0.567797,0.0,0.065457,0.0,,118,5

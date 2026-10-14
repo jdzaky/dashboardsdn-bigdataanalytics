@@ -1,0 +1,27 @@
+scope,dimension,segment,n,top1_acc,mean_regret
+seed42,bandwidth,tinggi (150M+),32,0.9062,0.0121
+seed42,bandwidth,sedang (30-100M),60,0.9,0.0067
+seed42,bandwidth,rendah (10M),26,0.8077,0.014
+seed42,iflipper,tidak (0),102,0.902,0.0089
+seed42,iflipper,selalu (1),16,0.75,0.0154
+seed42,nodes,besar (13+),26,0.9615,0.0005
+seed42,nodes,sedang (9-12),40,0.925,0.0091
+seed42,nodes,kecil (4-8),52,0.8077,0.0149
+seed42,topologi,star,47,0.9787,0.0056
+seed42,topologi,linear,31,0.871,0.002
+seed42,topologi,mesh,5,0.8,0.0047
+seed42,topologi,ring,28,0.7857,0.028
+seed42,topologi,tree,7,0.7143,0.0034
+pooled_5seed,bandwidth,sedang (30-100M),60,0.8867,0.0089
+pooled_5seed,bandwidth,tinggi (150M+),32,0.85,0.0192
+pooled_5seed,bandwidth,rendah (10M),26,0.8,0.0119
+pooled_5seed,iflipper,tidak (0),102,0.8922,0.0102
+pooled_5seed,iflipper,selalu (1),16,0.6375,0.0262
+pooled_5seed,nodes,besar (13+),26,0.9615,0.0005
+pooled_5seed,nodes,sedang (9-12),40,0.9,0.0082
+pooled_5seed,nodes,kecil (4-8),52,0.7731,0.0215
+pooled_5seed,topologi,star,47,0.9404,0.0087
+pooled_5seed,topologi,linear,31,0.8581,0.0068
+pooled_5seed,topologi,mesh,5,0.8,0.0047
+pooled_5seed,topologi,ring,28,0.7786,0.0264
+pooled_5seed,topologi,tree,7,0.6571,0.0107

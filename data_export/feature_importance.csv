@@ -1,0 +1,12 @@
+feature,importance,feature_group
+topo_ring,0.264959,topologi
+nodes,0.168728,nodes
+bandwidth_mhz,0.112937,bandwidth_mhz
+ctrl_onos,0.110072,controller
+topo_star,0.082975,topologi
+ctrl_floodlight,0.072564,controller
+topo_mesh,0.071384,topologi
+iflipper_applied,0.054727,iflipper_applied
+topo_linear,0.033393,topologi
+ctrl_ryu,0.020445,controller
+topo_tree,0.007816,topologi

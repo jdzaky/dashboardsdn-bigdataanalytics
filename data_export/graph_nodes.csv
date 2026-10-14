@@ -1,0 +1,9 @@
+node_id,node_type,label,degree,weighted_degree,mean_weight,closeness,betweenness,dominant_controller,dominant_in_n_topologies
+C:floodlight,controller,floodlight,5,3.901516,0.780303,4.05212,0.047619,,1
+C:onos,controller,onos,5,3.877229,0.775446,3.682847,0.238095,,2
+C:ryu,controller,ryu,5,4.015571,0.803114,4.480622,0.190476,,2
+T:linear,topologi,linear,3,2.361023,0.787008,3.500042,0.0,ryu,
+T:mesh,topologi,mesh,3,2.30165,0.767217,3.484324,0.047619,onos,
+T:ring,topologi,ring,3,2.291805,0.763935,3.305686,0.0,onos,
+T:star,topologi,star,3,2.45816,0.819387,4.059097,0.047619,ryu,
+T:tree,topologi,tree,3,2.381679,0.793893,3.530353,0.047619,floodlight,

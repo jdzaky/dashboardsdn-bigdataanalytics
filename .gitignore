@@ -1,0 +1,5 @@
+.venv-dashboard/
+__pycache__/
+*.pyc
+.streamlit/secrets.toml
+.ipynb_checkpoints/

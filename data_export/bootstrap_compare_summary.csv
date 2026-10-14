@@ -1,0 +1,4 @@
+condition,top1_mean,top1_std,regret_mean,mae_mean,n_train_rows_avg,n_seeds
+A_original,0.855932,0.020758,0.012215,0.04878,283,3
+B_bootstrap,0.830508,0.006919,0.018534,0.053011,4944,3
+C_original+bootstrap,0.836158,0.00799,0.016821,0.052972,5227,3
