@@ -159,6 +159,100 @@ def gambar_topologi(topologi, n):
     return fig
 
 # ============================================================
+# Fungsi gambar graf bipartit (topologi <-> controller)
+# ============================================================
+def gambar_bipartit(edges_df, w_min, w_max):
+    topo_list = sorted(edges_df["topology_type"].unique().tolist())
+    urutan_ctrl = ["ryu", "floodlight", "onos"]
+    ctrl_list = [c for c in urutan_ctrl if c in set(edges_df["controller_name"])]
+    ctrl_list += sorted(set(edges_df["controller_name"]) - set(ctrl_list))
+    if not topo_list or not ctrl_list:
+        return None
+
+    def y_pos(n, i):
+        # sebar merata, dipusatkan pada rentang 0..1
+        return 0.5 if n == 1 else 1 - i / (n - 1)
+
+    pos_t = {t: (0.0, y_pos(len(topo_list), i)) for i, t in enumerate(topo_list)}
+    pos_c = {c: (1.0, y_pos(len(ctrl_list), i)) for i, c in enumerate(ctrl_list)}
+
+    def lebar(w):
+        if w_max == w_min:
+            return 4
+        return 1.5 + (w - w_min) / (w_max - w_min) * 8
+
+    fig = go.Figure()
+    lx, ly, ltxt, lhov = [], [], [], []
+    t_lbl = 0.3  # posisi label di sepanjang garis (0 = topologi, 1 = controller)
+
+    # garis non-dominan dulu, dominan terakhir agar tampil di atas
+    for dom in (0, 1):
+        for _, r in edges_df[edges_df["is_dominant"] == dom].iterrows():
+            if r["topology_type"] not in pos_t or r["controller_name"] not in pos_c:
+                continue
+            x0, y0 = pos_t[r["topology_type"]]
+            x1, y1 = pos_c[r["controller_name"]]
+            fig.add_trace(go.Scatter(
+                x=[x0, x1], y=[y0, y1], mode="lines",
+                line=dict(
+                    width=lebar(r["weight_avg_ahp"]),
+                    color="#FFB020" if dom == 1 else "#6B7A90",
+                ),
+                hoverinfo="skip", showlegend=False,
+            ))
+            lx.append(x0 + (x1 - x0) * t_lbl)
+            ly.append(y0 + (y1 - y0) * t_lbl)
+            ltxt.append(f"{r['weight_avg_ahp']:.3f}")
+            lhov.append(
+                f"{r['topology_type']} → {r['controller_name']}<br>"
+                f"Rata-rata AHP: {r['weight_avg_ahp']:.4f}<br>"
+                f"Win rate: {r['win_rate']:.2%} ({int(r['wins'])}/{int(r['n_scenarios'])})<br>"
+                f"Peringkat di topologi: {int(r['rank_in_topology'])}"
+                + ("<br><b>Dominan</b>" if dom == 1 else "")
+            )
+
+    fig.add_trace(go.Scatter(
+        x=lx, y=ly, mode="markers+text",
+        marker=dict(size=22, color="rgba(14,17,23,0.01)"),
+        text=ltxt, textposition="middle center",
+        textfont=dict(color="#FAFAFA", size=11),
+        hovertext=lhov, hoverinfo="text", showlegend=False,
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=[pos_t[t][0] for t in topo_list],
+        y=[pos_t[t][1] for t in topo_list],
+        mode="markers+text",
+        marker=dict(size=26, color="#4C9AFF",
+                    line=dict(color="#FAFAFA", width=1)),
+        text=topo_list, textposition="middle left",
+        textfont=dict(color="#FAFAFA", size=12),
+        hovertext=[f"Topologi {t}" for t in topo_list], hoverinfo="text",
+        showlegend=False,
+    ))
+    fig.add_trace(go.Scatter(
+        x=[pos_c[c][0] for c in ctrl_list],
+        y=[pos_c[c][1] for c in ctrl_list],
+        mode="markers+text",
+        marker=dict(size=26, color="#36B37E",
+                    line=dict(color="#FAFAFA", width=1)),
+        text=ctrl_list, textposition="middle right",
+        textfont=dict(color="#FAFAFA", size=12),
+        hovertext=[f"Controller {c}" for c in ctrl_list], hoverinfo="text",
+        showlegend=False,
+    ))
+
+    fig.update_layout(
+        margin=dict(l=10, r=10, t=10, b=10),
+        xaxis=dict(visible=False, range=[-0.3, 1.3]),
+        yaxis=dict(visible=False, range=[-0.1, 1.1]),
+        height=420,
+        plot_bgcolor="#0E1117",
+        paper_bgcolor="#0E1117",
+    )
+    return fig
+
+# ============================================================
 # Sidebar filter
 # ============================================================
 st.sidebar.header("Filter Skenario")
@@ -455,6 +549,25 @@ else:
         height=380, plot_bgcolor="#0E1117", paper_bgcolor="#0E1117",
     )
     st.plotly_chart(fig2, use_container_width=True)
+
+st.markdown("**Graf bipartit topologi ↔ controller (bobot = rata-rata AHP):**")
+edges_f = edges.copy()
+if topo_pilih != "Semua":
+    edges_f = edges_f[edges_f["topology_type"] == topo_pilih]
+if len(edges_f) == 0:
+    st.warning("Tidak ada garis graf yang cocok dengan filter.")
+else:
+    fig_bip = gambar_bipartit(
+        edges_f,
+        edges["weight_avg_ahp"].min(),
+        edges["weight_avg_ahp"].max(),
+    )
+    st.plotly_chart(fig_bip, use_container_width=True)
+    st.caption(
+        "Ketebalan garis sebanding dengan rata-rata AHP. Garis oranye = "
+        "controller dominan di topologi tersebut. Pasangan yang tidak ada "
+        "di data tidak digambar."
+    )
 
 st.info(
     "Catatan penting: ring di graf tegas ke onos, tapi model justru "
