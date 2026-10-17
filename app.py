@@ -454,9 +454,8 @@ st.divider()
 st.header("Insight 1 — Model memilih controller lebih akurat daripada selalu memilih ryu")
 
 met1 = metrics.copy()
-met1 = met1[met1["method"].isin(
-    ["RF", "always_ryu", "always_floodlight", "always_onos"]
-)]
+
+met1 = met1[met1["method"].astype(str).str.contains("RF|always_", case=False, regex=True)]
 if len(met1):
     fig1 = px.bar(
         met1, x="method", y="top1_mean",
